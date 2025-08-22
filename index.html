@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garud AgriTech Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Garud AgriTech Farmer Dashboard</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#overview">Field Overview</a></li>
+            <li><a href="#health">Crop Health Analysis</a></li>
+            <li><a href="#operations">Spraying & Operations Log</a></li>
+            <li><a href="#environment">Environmental Monitoring</a></li>
+            <li><a href="#analytics">Reporting & Analytics</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="dashboard" class="dashboard-section main-dashboard">
+            <h2>🌾 Main Dashboard</h2>
+            <div class="dashboard-grid">
+                <!-- Critical Alerts Panel -->
+                <div class="dashboard-panel critical-alerts">
+                    <h3>🚨 Critical Alerts</h3>
+                    <div id="critical-alerts-list">
+                        <div class="alert-item critical">
+                            <span class="alert-icon">⚠️</span>
+                            <span class="alert-text">Fungal disease detected in Sector B-2</span>
+                        </div>
+                        <div class="alert-item warning">
+                            <span class="alert-icon">⚠️</span>
+                            <span class="alert-text">Clogged nozzle causing underwatering in Field A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats Panel -->
+                <div class="dashboard-panel quick-stats">
+                    <h3>📊 Quick Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Crop Health</span>
+                            <span class="stat-value" id="dashboard-health">85%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Area Monitored</span>
+                            <span class="stat-value" id="dashboard-area">1,200 Acres</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Active Issues</span>
+                            <span class="stat-value" id="dashboard-issues">3</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Today's Missions</span>
+                            <span class="stat-value" id="dashboard-missions">2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather & Environment Panel -->
+                <div class="dashboard-panel weather-env">
+                    <h3>🌤️ Current Conditions</h3>
+                    <div class="weather-grid">
+                        <div class="weather-item">
+                            <span class="weather-icon">🌡️</span>
+                            <span class="weather-label">Temperature</span>
+                            <span class="weather-value" id="dashboard-temp">25°C</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="weather-icon">💧</span>
+                            <span class="weather-label">Humidity</span>
+                            <span class="weather-value" id="dashboard-humidity">60%</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="weather-icon">🌱</span>
+                            <span class="weather-label">Soil Moisture</span>
+                            <span class="weather-value">Optimal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Field Status Overview -->
+                <div class="dashboard-panel field-status">
+                    <h3>🏞️ Field Status Overview</h3>
+                    <div class="field-grid">
+                        <div class="field-item healthy">
+                            <span class="field-name">Field A</span>
+                            <span class="field-status">Healthy (95%)</span>
+                        </div>
+                        <div class="field-item warning">
+                            <span class="field-name">Field B</span>
+                            <span class="field-status">Needs Attention (75%)</span>
+                        </div>
+                        <div class="field-item critical">
+                            <span class="field-name">Field C</span>
+                            <span class="field-status">Critical (45%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Operations -->
+                <div class="dashboard-panel recent-ops">
+                    <h3>🚁 Recent Operations</h3>
+                    <div class="ops-list">
+                        <div class="op-item">
+                            <span class="op-time">2 hours ago</span>
+                            <span class="op-desc">Spraying completed in Field A</span>
+                            <span class="op-status success">✓ Success</span>
+                        </div>
+                        <div class="op-item">
+                            <span class="op-time">5 hours ago</span>
+                            <span class="op-desc">Surveillance scan in Field B</span>
+                            <span class="op-status success">✓ Complete</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="dashboard-panel quick-actions">
+                    <h3>⚡ Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn primary">🚁 Start New Mission</button>
+                        <button class="action-btn secondary">📊 Generate Report</button>
+                        <button class="action-btn secondary">🔍 Field Scan</button>
+                        <button class="action-btn secondary">📱 Contact Support</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="overview" class="dashboard-section">
+            <h2>Field Overview</h2>
+            <div class="kpi-container">
+                <div class="kpi-card">
+                    <h3>Overall Crop Health</h3>
+                    <p id="overall-health">--%</p>
+                </div>
+                <div class="kpi-card">
+                    <h3>Area Surveyed</h3>
+                    <p id="area-surveyed">-- Acres</p>
+                </div>
+                <div class="kpi-card">
+                    <h3>Active Issues</h3>
+                    <p id="active-issues">--</p>
+                </div>
+            </div>
+            <div class="map-container">
+                <!-- Interactive Farm Map will go here -->
+                <img src="https://via.placeholder.com/600x400?text=Interactive+Farm+Map" alt="Interactive Farm Map">
+            </div>
+            <div class="alerts-container">
+                <h3>Real-Time Alerts</h3>
+                <ul id="alert-list">
+                    <!-- Alerts will be dynamically added here -->
+                    <li><span class="alert-type warning">Warning:</span> No alerts at the moment.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="health" class="dashboard-section">
+            <h2>Crop Health Analysis</h2>
+            <div class="map-container">
+                <h3>NDVI Health Map</h3>
+                <img src="https://via.placeholder.com/600x400?text=NDVI+Health+Map" alt="NDVI Health Map">
+                <p class="legend">Legend: Dark Green = High Vigor, Red = Stressed/Bare Soil</p>
+            </div>
+            <div class="map-container">
+                <h3>Pest & Weed Hotspot Map</h3>
+                <img src="https://via.placeholder.com/600x400?text=Pest+&+Weed+Hotspot+Map" alt="Pest & Weed Hotspot Map">
+            </div>
+            <div class="map-container">
+                <h3>Nutrient Deficiency Map</h3>
+                <img src="https://via.placeholder.com/600x400?text=Nutrient+Deficiency+Map" alt="Nutrient Deficiency Map">
+            </div>
+        </section>
+
+        <section id="operations" class="dashboard-section">
+            <h2>Spraying & Operations Log</h2>
+            <h3>Mission History</h3>
+            <table id="mission-history-table">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Target Area</th>
+                        <th>Pesticide Used</th>
+                        <th>Area Covered (Acres)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Mission history will be dynamically added here -->
+                    <tr>
+                        <td>2023-10-26 10:00 AM</td>
+                        <td>Field A, Sector 1</td>
+                        <td>Bio-Pesticide X</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>2023-10-25 02:30 PM</td>
+                        <td>Field B, Sector 3</td>
+                        <td>Fungicide Y</td>
+                        <td>30</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Resource Usage Tracker</h3>
+            <div class="chart-container">
+                <!-- Chart for pesticide consumption will go here -->
+                <img src="https://via.placeholder.com/400x200?text=Pesticide+Consumption+Chart" alt="Pesticide Consumption Chart">
+            </div>
+
+            <h3>Efficacy Report</h3>
+            <div class="efficacy-container">
+                <div class="map-container">
+                    <h4>Before Spraying (NDVI)</h4>
+                    <img src="https://via.placeholder.com/300x200?text=Before+NDVI" alt="Before Spraying NDVI">
+                </div>
+                <div class="map-container">
+                    <h4>After Spraying (NDVI)</h4>
+                    <img src="https://via.placeholder.com/300x200?text=After+NDVI" alt="After Spraying NDVI">
+                </div>
+            </div>
+        </section>
+
+        <section id="environment" class="dashboard-section">
+            <h2>Environmental Monitoring</h2>
+            <div class="current-conditions">
+                <h3>Current Conditions</h3>
+                <p>Temperature: <span id="current-temp">--°C</span></p>
+                <p>Humidity: <span id="current-humidity">--%</span></p>
+            </div>
+            <div class="chart-container">
+                <h3>Historical Data</h3>
+                <!-- Chart for temperature and humidity trends will go here -->
+                <img src="https://via.placeholder.com/600x300?text=Temp+and+Humidity+Trends" alt="Temperature and Humidity Trends Chart">
+            </div>
+        </section>
+
+        <section id="analytics" class="dashboard-section">
+            <h2>Reporting & Analytics</h2>
+            <div class="kpi-container">
+                <div class="kpi-card">
+                    <h3>Yield Forecast</h3>
+                    <p id="yield-forecast">-- Tons/Acre</p>
+                </div>
+                <div class="kpi-card">
+                    <h3>Resource Efficiency Score</h3>
+                    <p id="efficiency-score">--% Savings</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Trend Analysis (Crop Health)</h3>
+                <!-- Chart for crop health trends will go here -->
+                <img src="https://via.placeholder.com/600x300?text=Crop+Health+Trend+Analysis" alt="Crop Health Trend Analysis Chart">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Garud AgriTech. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

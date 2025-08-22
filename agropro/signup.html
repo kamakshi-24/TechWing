@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <!-- Include the same CSS files as other pages -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="css/bootstrap-datepicker.min.css">
+    <style>
+        .blur-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://th.bing.com/th/id/OIP.fJPFjE-VRVsxWymepSezLgHaEo?rs=1&pid=ImgDetMain') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(10px);
+            z-index: -1;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body class="main-layout">
+    <!-- Background Blur -->
+    <div class="blur-background"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="logo">
+                        <a href="index.html">GARUDA<span>AGROTECH</span></a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="navbar-area">
+                        <nav class="site-navbar">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="service.html">Service</a></li>
+                                <li><a href="testimonail.html">Testimonail</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="signup.html" class="active">Sign Up</a></li>
+                            </ul>
+                            <button class="nav-toggler">
+                                <span></span>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- Sign Up Form -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-container">
+                    <h2>Sign Up</h2>
+                    <form>
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" class="form-control">
+                        <br>
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" class="form-control">
+                        <br>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control">
+                        <br>
+                        <label for="phone">Phone:</label>
+                        <input type="text" id="phone" name="phone" class="form-control">
+                        <br>
+                        <label for="gender">Gender:</label>
+                        <input type="text" id="gender" name="gender" class="form-control">
+                        <br>
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" id="dob" name="dob" class="form-control">
+                        <br>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                        <br>
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control">
+                        <br>
+                        <button class="btn btn-primary signup-btn">Sign Up</button>
+                    </form>
+                    <div class="login">
+                        <a href="login.html">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Sign Up Form -->
+
+    <!-- Include the same JS files as other pages -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function () {
+            if (localStorage.getItem('loggedIn') === 'true') {
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('.signup-btn').addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent form submission
+
+                const firstName = document.querySelector('#firstName').value.trim();
+                const lastName = document.querySelector('#lastName').value.trim();
+                const email = document.querySelector('#email').value.trim();
+                const phone = document.querySelector('#phone').value.trim();
+                const gender = document.querySelector('#gender').value.trim();
+                const dob = document.querySelector('#dob').value.trim();
+                const password = document.querySelector('#password').value.trim();
+                const confirmPassword = document.querySelector('#confirmPassword').value.trim();
+
+                // Validate if all fields are filled
+                if (
+                    firstName &&
+                    lastName &&
+                    email &&
+                    phone &&
+                    gender &&
+                    dob &&
+                    password &&
+                    confirmPassword
+                ) {
+                    if (password === confirmPassword) {
+                        // Save user data in localStorage
+                        localStorage.setItem('username', firstName);
+                        localStorage.setItem('password', password);
+
+                        alert('Signup successful! Redirecting to login...');
+                        window.location.assign('login.html');
+                    } else {
+                        alert('Passwords do not match!');
+                    }
+                } else {
+                    alert('Please fill out all fields.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

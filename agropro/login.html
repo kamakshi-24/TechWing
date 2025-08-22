@@ -1,0 +1,209 @@
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Include the same CSS files as other pages -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="css/bootstrap-datepicker.min.css">
+    <style>
+        .blur-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://th.bing.com/th/id/OIP.fJPFjE-VRVsxWymepSezLgHaEo?rs=1&pid=ImgDetMain') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(10px);
+            z-index: -1;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn-block {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .signup {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .signup a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .signup a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="main-layout">
+    <!-- Background Blur -->
+    <div class="blur-background"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="logo">
+                        <a href="index.html">Techwing</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="navbar-area">
+                        <nav class="site-navbar">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="service.html">Service</a></li>
+                                <li><a href="testimonail.html">Testimonail</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="login.html" class="active">Login</a></li>
+                                <li><a href="signup.html">Sign Up</a></li>
+                            </ul>
+                            <button class="nav-toggler">
+                                <span></span>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- Login Form -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-container">
+                    <h2>Login</h2>
+                    <div style="background: #e7f3ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #007bff;">
+                        <strong>Demo Account Available:</strong><br>
+                        Username: <code>demo</code><br>
+                        Password: <code>demo123</code>
+                    </div>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="user">Username:</label>
+                            <input type="text" id="user" name="user" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass">Password:</label>
+                            <input type="password" id="pass" name="pass" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        </div>
+                    </form>
+                    <div class="signup">
+                        <a href="signup.html">Sign Up</a>
+                        <br><br>
+                        <button type="button" id="demoAccountBtn" class="btn btn-secondary btn-sm" style="background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-top: 10px;">
+                            Create Demo Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Login Form -->
+
+    <!-- Include the same JS files as other pages -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+
+         <script>
+         // Wait for DOM to be fully loaded
+         document.addEventListener('DOMContentLoaded', function() {
+             console.log('DOM loaded, setting up login system...');
+             
+             // Create a demo account automatically on page load
+             localStorage.setItem('username', 'demo');
+             localStorage.setItem('password', 'demo123');
+             console.log('Demo account created');
+             
+             // Simple login form handler
+             const loginForm = document.getElementById('loginForm');
+             if (loginForm) {
+                 loginForm.addEventListener('submit', function(e) {
+                     e.preventDefault();
+                     
+                     const username = document.getElementById('user').value.trim();
+                     const password = document.getElementById('pass').value.trim();
+                     
+                     console.log('Login attempt:', username, password);
+                     
+                     if (username === 'demo' && password === 'demo123') {
+                         alert('Login successful! Redirecting to dashboard...');
+                         localStorage.setItem('loggedIn', 'true');
+                         window.location.href = 'dashboard.html';
+                     } else {
+                         alert('Invalid credentials. Use demo/demo123');
+                     }
+                 });
+                 console.log('Login form handler added');
+             } else {
+                 console.error('Login form not found!');
+             }
+             
+             // Demo account button
+             const demoBtn = document.getElementById('demoAccountBtn');
+             if (demoBtn) {
+                 demoBtn.addEventListener('click', function() {
+                     localStorage.setItem('username', 'demo');
+                     localStorage.setItem('password', 'demo123');
+                     document.getElementById('user').value = 'demo';
+                     document.getElementById('pass').value = 'demo123';
+                     alert('Demo account ready! Username: demo, Password: demo123');
+                 });
+                 console.log('Demo button handler added');
+             } else {
+                 console.error('Demo button not found!');
+             }
+             
+             // Signup link
+             const signupLink = document.querySelector('.signup a');
+             if (signupLink) {
+                 signupLink.addEventListener('click', function(e) {
+                     e.preventDefault();
+                     window.location.href = 'signup.html';
+                 });
+                 console.log('Signup link handler added');
+             } else {
+                 console.error('Signup link not found!');
+             }
+             
+             console.log('All event listeners set up successfully');
+         });

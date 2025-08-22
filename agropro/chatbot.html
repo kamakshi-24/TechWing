@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroPro Chatbot</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .chatbot-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(135deg, #2f8f2f, #4CAF50);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .chatbot-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .chatbot-header p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .chat-area {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .message.user {
+            justify-content: flex-end;
+        }
+        
+        .message.bot {
+            justify-content: flex-start;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+        }
+        
+        .message.user .message-content {
+            background: #007bff;
+            color: white;
+        }
+        
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #e9ecef;
+        }
+        
+        .quick-questions {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .quick-questions h4 {
+            margin-bottom: 15px;
+            color: #2f8f2f;
+        }
+        
+        .question-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 16px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .question-btn:hover {
+            background: #2f8f2f;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .form-control {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+        
+        .btn-send {
+            padding: 12px 24px;
+            background: #2f8f2f;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn-send:hover {
+            background: #1e5f1e;
+        }
+        
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 18px;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #2f8f2f;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+    
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h2>🌱 AgroPro AI Assistant</h2>
+            <p>Your smart farming companion - Ask me anything about agriculture!</p>
+        </div>
+        
+        <div class="chat-area" id="chatArea">
+            <div class="message bot">
+                <div class="message-content">
+                    Hello! I'm your AgroPro AI Assistant. I can help you with farming questions, crop management, pest control, and more. How can I assist you today?
+                </div>
+            </div>
+        </div>
+        
+        <div class="quick-questions">
+            <h4>Quick Questions:</h4>
+            <button class="question-btn" onclick="askQuestion('How to improve soil fertility?')">Soil Fertility</button>
+            <button class="question-btn" onclick="askQuestion('Best time to plant tomatoes?')">Planting Time</button>
+            <button class="question-btn" onclick="askQuestion('How to control pests naturally?')">Pest Control</button>
+            <button class="question-btn" onclick="askQuestion('Watering schedule for vegetables?')">Watering</button>
+            <button class="question-btn" onclick="askQuestion('Crop rotation benefits?')">Crop Rotation</button>
+            <button class="question-btn" onclick="askQuestion('Organic farming methods?')">Organic Farming</button>
+            <button class="question-btn" onclick="askQuestion('Weather impact on crops?')">Weather & Crops</button>
+            <button class="question-btn" onclick="askQuestion('Harvesting techniques?')">Harvesting</button>
+        </div>
+        
+        <div class="input-area">
+            <div class="input-group">
+                <input type="text" class="form-control" id="userInput" placeholder="Type your question here..." onkeypress="handleKeyPress(event)">
+                <button class="btn-send" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Agriculture knowledge base
+        const knowledgeBase = {
+            'soil fertility': {
+                answer: "To improve soil fertility:\n\n1. Add organic matter (compost, manure)\n2. Use cover crops like clover or legumes\n3. Practice crop rotation\n4. Test soil pH and adjust if needed\n5. Add natural fertilizers like bone meal or fish emulsion\n6. Avoid over-tilling to preserve soil structure\n7. Use mulch to retain moisture and nutrients",
+                keywords: ['soil', 'fertility', 'compost', 'manure', 'organic']
+            },
+            'planting time': {
+                answer: "Best planting times vary by crop:\n\n🌱 Spring (March-May):\n- Tomatoes, peppers, cucumbers\n- Lettuce, spinach, radishes\n- Peas, beans\n\n🌞 Summer (June-August):\n- Fall vegetables like broccoli\n- Late-season tomatoes\n- Winter squash\n\n🍂 Fall (September-October):\n- Garlic, onions\n- Winter greens\n- Root vegetables\n\nCheck your local frost dates and plant accordingly!",
+                keywords: ['planting', 'time', 'season', 'spring', 'summer', 'fall']
+            },
+            'pest control': {
+                answer: "Natural pest control methods:\n\n🦗 Physical barriers:\n- Row covers, netting\n- Companion planting\n- Crop rotation\n\n🌿 Natural repellents:\n- Marigolds (repel nematodes)\n- Basil (repels flies)\n- Garlic (repels many pests)\n\n🐞 Beneficial insects:\n- Ladybugs (eat aphids)\n- Lacewings (eat various pests)\n- Praying mantis\n\n🧪 Organic sprays:\n- Neem oil\n- Soap and water\n- Garlic/chili pepper spray\n\n💡 Prevention is key - healthy plants resist pests better!",
+                keywords: ['pest', 'control', 'natural', 'organic', 'insects']
+            },
+            'watering': {
+                answer: "Watering schedule for vegetables:\n\n💧 General rules:\n- Water deeply but less frequently\n- Early morning is best (reduces evaporation)\n- Avoid overhead watering in evening\n\n🌱 Seedlings: Keep soil consistently moist\n🌿 Established plants: Water when top 1-2 inches are dry\n🌳 Deep-rooted crops: Water less often but deeper\n\n📏 Water needs by crop:\n- High: Lettuce, spinach, celery\n- Medium: Tomatoes, peppers, beans\n- Low: Root vegetables, herbs\n\n💡 Use mulch to retain moisture and reduce watering needs!",
+                keywords: ['watering', 'water', 'schedule', 'moisture', 'irrigation']
+            },
+            'crop rotation': {
+                answer: "Crop rotation benefits:\n\n🔄 Why rotate crops:\n- Prevents soil-borne diseases\n- Improves soil fertility\n- Reduces pest populations\n- Balances nutrient usage\n\n📋 Basic rotation plan:\nYear 1: Heavy feeders (corn, tomatoes)\nYear 2: Light feeders (beans, peas)\nYear 3: Root crops (carrots, potatoes)\nYear 4: Rest period or cover crops\n\n🌱 Plant families to rotate:\n- Nightshades: Tomatoes, peppers, potatoes\n- Legumes: Beans, peas, lentils\n- Brassicas: Cabbage, broccoli, kale\n- Alliums: Onions, garlic, leeks\n\n💡 Keep a garden journal to track your rotation!",
+                keywords: ['crop', 'rotation', 'diseases', 'pests', 'fertility']
+            },
+            'organic farming': {
+                answer: "Organic farming methods:\n\n🌱 Soil management:\n- Composting kitchen and garden waste\n- Using animal manure (aged)\n- Green manure crops\n- Natural rock powders\n\n🦗 Pest management:\n- Beneficial insects\n- Companion planting\n- Natural repellents\n- Physical barriers\n\n🌿 Weed control:\n- Mulching\n- Hand weeding\n- Cover crops\n- Crop rotation\n\n🌾 Fertilization:\n- Compost tea\n- Fish emulsion\n- Seaweed extracts\n- Bone meal\n\n💡 Start small and gradually convert your garden!",
+                keywords: ['organic', 'farming', 'natural', 'compost', 'pesticides']
+            },
+            'weather': {
+                answer: "Weather impact on crops:\n\n🌧️ Rain:\n- Too much: Root rot, fungal diseases\n- Too little: Drought stress, poor growth\n- Solution: Proper drainage and irrigation\n\n🌡️ Temperature:\n- Frost: Damages tender plants\n- Heat: Wilting, reduced yields\n- Solution: Row covers, shade cloth\n\n💨 Wind:\n- Damages plants, dries soil\n- Solution: Windbreaks, staking\n\n🌤️ Sun:\n- Full sun: Most vegetables need 6-8 hours\n- Partial shade: Lettuce, spinach, herbs\n- Solution: Strategic planting and shading\n\n💡 Monitor weather forecasts and plan accordingly!",
+                keywords: ['weather', 'temperature', 'rain', 'wind', 'sun']
+            },
+            'harvesting': {
+                answer: "Harvesting techniques:\n\n🍅 Tomatoes:\n- Pick when fully colored but firm\n- Harvest in morning for best flavor\n- Cut with scissors to avoid damage\n\n🥬 Lettuce:\n- Cut outer leaves as needed\n- Harvest whole head when mature\n- Best in cool morning hours\n\n🥕 Root vegetables:\n- Loosen soil before pulling\n- Harvest when size is right\n- Store in cool, dark place\n\n🌽 Corn:\n- Check kernels for milky liquid\n- Harvest when silks turn brown\n- Best within 24 hours of picking\n\n💡 Harvest regularly to encourage more production!",
+                keywords: ['harvesting', 'harvest', 'picking', 'timing', 'techniques']
+            }
+        };
+
+        // Chat functionality
+        function addMessage(message, isUser = false) {
+            const chatArea = document.getElementById('chatArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = message;
+            
+            messageDiv.appendChild(contentDiv);
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function getBotResponse(userQuestion) {
+            const question = userQuestion.toLowerCase();
+            
+            // Check for exact matches first
+            for (const key in knowledgeBase) {
+                if (question.includes(key)) {
+                    return knowledgeBase[key].answer;
+                }
+            }
+            
+            // Check for keyword matches
+            for (const key in knowledgeBase) {
+                const keywords = knowledgeBase[key].keywords;
+                for (const keyword of keywords) {
+                    if (question.includes(keyword)) {
+                        return knowledgeBase[key].answer;
+                    }
+                }
+            }
+            
+            // Default responses for common questions
+            if (question.includes('hello') || question.includes('hi')) {
+                return "Hello! I'm here to help with your farming questions. Feel free to ask about soil, crops, pests, or any agricultural topic!";
+            }
+            
+            if (question.includes('help')) {
+                return "I can help you with:\n- Soil and fertility questions\n- Planting and harvesting advice\n- Pest control methods\n- Watering schedules\n- Crop rotation\n- Organic farming\n\nTry asking a specific question or use the quick question buttons above!";
+            }
+            
+            if (question.includes('thank')) {
+                return "You're welcome! Feel free to ask more questions. I'm here to help make your farming journey successful! 🌱";
+            }
+            
+            // Generic response for unknown questions
+            return "That's an interesting question! While I don't have specific information about that, I can help you with:\n\n- Soil management and fertility\n- Crop planting and care\n- Natural pest control\n- Watering and irrigation\n- Organic farming methods\n- Weather considerations\n\nTry asking about one of these topics, or use the quick question buttons above for instant answers!";
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message
+            addMessage(message, true);
+            userInput.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate bot thinking time
+            setTimeout(() => {
+                hideTypingIndicator();
+                const botResponse = getBotResponse(message);
+                addMessage(botResponse);
+            }, 1000);
+        }
+
+        function askQuestion(question) {
+            addMessage(question, true);
+            
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                hideTypingIndicator();
+                const botResponse = getBotResponse(question);
+                addMessage(botResponse);
+            }, 800);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function showTypingIndicator() {
+            const chatArea = document.getElementById('chatArea');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typingIndicator';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'typing-indicator';
+            contentDiv.textContent = 'AgroPro is typing...';
+            
+            typingDiv.appendChild(contentDiv);
+            chatArea.appendChild(typingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Initialize chatbot
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('AgroPro Chatbot initialized!');
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Demo Account</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .result { margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Demo Account Test</h1>
+    
+    <div class="test-section">
+        <h3>Test Demo Account Creation</h3>
+        <button onclick="testCreateDemo()">Create Demo Account</button>
+        <button onclick="checkStorage()">Check Storage</button>
+        <button onclick="clearStorage()">Clear Storage</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test Login Form</h3>
+        <form id="testForm">
+            <label>Username: <input type="text" id="testUser" placeholder="Enter username"></label><br><br>
+            <label>Password: <input type="password" id="testPass" placeholder="Enter password"></label><br><br>
+            <button type="submit">Test Login</button>
+        </form>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <script>
+        function testCreateDemo() {
+            try {
+                localStorage.setItem('username', 'demo');
+                localStorage.setItem('password', 'demo123');
+                document.getElementById('result').innerHTML = '✅ Demo account created successfully!<br>Username: demo<br>Password: demo123';
+            } catch (error) {
+                document.getElementById('result').innerHTML = '❌ Error: ' + error.message;
+            }
+        }
+
+        function checkStorage() {
+            const username = localStorage.getItem('username');
+            const password = localStorage.getItem('password');
+            const loggedIn = localStorage.getItem('loggedIn');
+            
+            document.getElementById('result').innerHTML = 
+                '📊 Storage Status:<br>' +
+                'Username: ' + (username || 'Not set') + '<br>' +
+                'Password: ' + (password || 'Not set') + '<br>' +
+                'Logged In: ' + (loggedIn || 'Not set');
+        }
+
+        function clearStorage() {
+            localStorage.clear();
+            document.getElementById('result').innerHTML = '🗑️ Storage cleared!';
+        }
+
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('testUser').value;
+            const password = document.getElementById('testPass').value;
+            
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+            
+            if (username === storedUsername && password === storedPassword) {
+                document.getElementById('loginResult').innerHTML = '✅ Login successful!';
+                localStorage.setItem('loggedIn', 'true');
+            } else {
+                document.getElementById('loginResult').innerHTML = '❌ Login failed! Invalid credentials.';
+            }
+        });
+
+        // Check storage on page load
+        checkStorage();
+    </script>
+</body>
+</html>
